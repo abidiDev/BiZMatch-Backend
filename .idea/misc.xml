@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/gateway-service" />
+    <file type="web" url="file://$PROJECT_DIR$/reclamations" />
+    <file type="web" url="file://$PROJECT_DIR$/service-config" />
+    <file type="web" url="file://$PROJECT_DIR$/service-register" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/AuthMS/pom.xml" />
+        <option value="$PROJECT_DIR$/service-config/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/service-register/pom.xml" />
+        <option value="$PROJECT_DIR$/reclamations/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>

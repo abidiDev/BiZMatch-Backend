@@ -7,6 +7,8 @@ import com.spring.pi.payload.request.ResetPasswordRequest;
 import com.spring.pi.payload.request.SignupRequest;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 
 public interface AuthService {
 
@@ -19,5 +21,6 @@ public interface AuthService {
 
     public Actor getByResetPasswordToken(String token);
     public void updatePassword(Actor actor, String newPassword);
+    public Optional<Actor> getLoggedInActor();
 
 }

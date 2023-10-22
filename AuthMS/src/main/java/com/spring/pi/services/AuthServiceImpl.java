@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,7 +85,7 @@ public class AuthServiceImpl implements AuthService{
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
+       if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
@@ -151,5 +153,23 @@ public class AuthServiceImpl implements AuthService{
 
         actor.setResetPasswordToken(null);
         actorRepository.save(actor);
+    }
+    public Optional<Actor> getLoggedInActor() {
+        // Récupérer l'objet d'authentification de Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Vérifier si l'utilisateur est authentifié
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Utilisez le nom d'utilisateur du UserDetails pour rechercher l'acteur connecté
+            String username = userDetails.getUsername();
+            System.out.println("Actor: " + actorRepository.findByUsername(username));
+            return actorRepository.findByUsername(username);
+        }
+        String message ="nesqqqqqqq";
+        System.out.println(message);
+
+        return null ; // L'utilisateur n'est pas connecté
     }
 }
