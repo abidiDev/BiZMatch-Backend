@@ -1,13 +1,13 @@
-package com.example.business_needs_matchmaker;
+package com.example.marche_et_besoin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BusinessNeedsMatchmakerApplication {
+public class MarcheEtBesoinApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BusinessNeedsMatchmakerApplication.class, args);
+        SpringApplication.run(MarcheEtBesoinApplication.class, args);
     }
 
 }
