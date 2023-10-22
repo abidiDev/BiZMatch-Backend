@@ -72,7 +72,7 @@ public class ReclamationController {
           reclamationService.add(r);
 //04030232
 
-       // EC.ApplicationMail();
+        EC.ApplicationMail();
 
         //System.out.println(r.getId()+r.getIduser()+r.getSubject()+r.getDescription()+r.isStatut());
 
