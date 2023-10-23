@@ -3,6 +3,7 @@ package com.spring.pi.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.spring.pi.models.Entreprise;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,5 +50,8 @@ public class Actor implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
 
     private Set<Role> roles = new HashSet<>();
+    @Transient
+    private Set<Entreprise> entreprises = new HashSet<>();
+
 
 }

@@ -4,21 +4,16 @@ import javax.validation.Valid;
 
 import com.spring.pi.entities.Actor;
 import com.spring.pi.entities.notMapped.EmailDetails;
-import com.spring.pi.payload.request.LoginRequest;
-import com.spring.pi.payload.request.ResetPasswordRequest;
-import com.spring.pi.payload.request.SignupRequest;
+import com.spring.pi.payload.request.*;
 import com.spring.pi.payload.response.MessageResponse;
 import com.spring.pi.services.AuthService;
 import com.spring.pi.services.ContactingService;
+import com.spring.pi.services.IService;
 import lombok.AllArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 ;
 
@@ -28,18 +23,61 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class AuthController {
   AuthService authService;
+  IService iService;
   JavaMailSender mailSender;
   ContactingService contactingService;
+  @GetMapping(path = "actorById/{id}")
+  public Actor findActorById(@PathVariable Long id){
+    return  authService.findActorById(id);
+
+  }
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     return authService.authenticateUser(loginRequest);
   }
+  @PostMapping("/addClient")
+  public ResponseEntity<?> addClient( @RequestBody ClientRequest actor) {
 
+    return iService.addActor(actor);
+  }
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     return authService.registerUser(signUpRequest);
   }
+@PostMapping("/partnershipRequest")
+public ResponseEntity<?> PartnershipEmail(@RequestBody PartnershipdRequest partnershipRequest) {
+  try {
+
+    EmailDetails ed=new EmailDetails();
+    Actor a= authService.findActorById(partnershipRequest.getRecipientID());
+
+    ed.setRecipient(a.getEmail());
+    ed.setSubject("Partnership request from BIZZMATCH");
+    String content= "<html>"
+            + "<body>"
+            + "<div style=\"background-color: #f9f9f9; padding: 20px;\">"
+            + "<img src=\"https://zupimages.net/up/23/39/oben.jpg\"  style=\"display: block; margin: 0 auto;\" />"
+            + "<p>Hello,</p>"
+            + "<p>You have requested to create Partnership.</p>"
+            + "<p>Click the link below to change your password:</p>"
+            + "<p>+ resetPasswordLink </p>"
+            + "<br>"
+            + "<p>Ignore this email if you do remember your password, "
+            + "or you have not made the request.</p>"
+            + "</div>"
+            + "</body>"
+            + "</html>";
+    ed.setMsgBody(content);
+    contactingService.sendSimpleMail(ed);
+    return ResponseEntity.ok(new MessageResponse("we have send a link to rset your paswword please check it  !"));
+
+  } catch (Exception ex) {
+    return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("you have writen a wrong email!"));
+  }
+}
 
   @PostMapping("/forgot_passworddemondByEmail")
   public ResponseEntity<?> forgotPasswordDemondByEmail(@RequestBody ResetPasswordRequest resetPasswordRequest) {
